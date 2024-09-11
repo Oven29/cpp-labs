@@ -66,7 +66,7 @@ int main(int, char**) {
 
     if (h == kSingleHour) {
         std::cout << h << " час ";
-    } else if (h <= kFewHoursEnd) {
+    } else if (h <= kFewHoursEnd && h != 0) {
         std::cout << h << " часа ";
     } else {
         std::cout << h << " часов ";
