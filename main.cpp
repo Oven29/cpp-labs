@@ -24,9 +24,8 @@ int main(int, char**) {
     int h = 0;
     int m = 0;
 
-    std::cout << "Enter hours\n";
+    std::cout << "Введите часы и минуты через пробел\n";
     std::cin >> h;
-    std::cout << "Enter minutes\n";
     std::cin >> m;
 
     if (h > kMaxHours || h < kMinHours) {
