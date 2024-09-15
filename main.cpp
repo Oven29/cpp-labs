@@ -70,9 +70,9 @@ int main(int, char**) {
         formatedHours -= kHoursFormat;
     }
 
-    if (hours == kHoursNominativeCase) {
+    if (formatedHours == kHoursNominativeCase) {
         std::cout << formatedHours << " час ";
-    } else if (hours >= kHoursGenetiveCaseMin && hours <= kHoursGenetiveCaseMax) {
+    } else if (formatedHours >= kHoursGenetiveCaseMin && formatedHours <= kHoursGenetiveCaseMax) {
         std::cout << formatedHours << " часа ";
     } else {
         std::cout << formatedHours << " часов ";
@@ -89,11 +89,11 @@ int main(int, char**) {
         }
     }
 
-    if (formatedHours >= kMorningStart && formatedHours <= kMorningEnd) {
+    if (hours >= kMorningStart && hours <= kMorningEnd) {
         std::cout << "утра";
-    } else if (formatedHours >= kAfternoonStart && formatedHours <= kAfternoonEnd) {
+    } else if (hours >= kAfternoonStart && hours <= kAfternoonEnd) {
         std::cout << "дня";
-    } else if (formatedHours >= kEveningStart && formatedHours <= kEveningEnd) {
+    } else if (hours >= kEveningStart && hours <= kEveningEnd) {
         std::cout << "вечера";
     } else {
         std::cout << "ночи";
