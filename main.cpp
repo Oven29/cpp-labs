@@ -55,12 +55,12 @@ int main(int, char**) {
         return 1;
     }
 
-    if (hours == kMidnightHour && minutes == kExactHours) {
+    if (hours == kMidnightHour && minutes == kFullHourMinutes) {
         std::cout << "Полночь\n";
         return 0;
     }
 
-    if (hours == kNoonHour && minutes == kExactHours) {
+    if (hours == kNoonHour && minutes == kFullHourMinutes) {
         std::cout << "Полдень\n";
         return 0;
     }
@@ -76,7 +76,7 @@ int main(int, char**) {
     }
 
     int firstNumberOfMinutes = minutes % kDecimalBase;
-    if (minutes != kExactHours) {
+    if (minutes != kFullHourMinutes) {
         if ((firstNumberOfMinutes >= kMinutesNominativePeriodMin && firstNumberOfMinutes <= kMinutesNominativePeriodMax) ||
             (minutes >= kMinutesNominativeMin && minutes <= kMinutesNominativeMax) || (firstNumberOfMinutes == kMinutesNominative)) {
             std::cout << minutes << " минут ";
@@ -97,7 +97,7 @@ int main(int, char**) {
         std::cout << "ночи";
     }
 
-    if (minutes == kExactHours) {
+    if (minutes == kFullHourMinutes) {
         std::cout << " ровно";
     }
     std::cout << "\n";
