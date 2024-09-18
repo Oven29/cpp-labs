@@ -75,13 +75,13 @@ int main(int, char**) {
         std::cout << formatedHours << " часов ";
     }
 
-    int firstNumberOfMinutes = minutes % kDecimalBase;
+    int lastDigitOfMinutes = minutes % kDecimalBase;
     if (minutes != kFullHourMinutes) {
-        if ((firstNumberOfMinutes >= kMinutesNominativePluralPeriodMin && firstNumberOfMinutes <= kMinutesNominativePluralPeriodMax) ||
+        if ((lastDigitOfMinutes >= kMinutesNominativePluralPeriodMin && lastDigitOfMinutes <= kMinutesNominativePluralPeriodMax) ||
             (minutes >= kMinutesNominativePluralMin && minutes <= kMinutesNominativePluralMax) ||
-            (firstNumberOfMinutes == kMinutesNominativeSingular)) {
+            (lastDigitOfMinutes == kMinutesNominativeSingular)) {
             std::cout << minutes << " минут ";
-        } else if (firstNumberOfMinutes >= kMinutesGenitivePluralMin && firstNumberOfMinutes <= kMinutesGenitivePluralMax) {
+        } else if (lastDigitOfMinutes >= kMinutesGenitivePluralMin && lastDigitOfMinutes <= kMinutesGenitivePluralMax) {
             std::cout << minutes << " минуты ";
         } else {
             std::cout << minutes << " минута ";
