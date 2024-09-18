@@ -27,7 +27,7 @@ const int kHoursGenitiveMax = 4;
 
 const int kExactHours = 0;
 
-const int kMinutesNominative = 1;
+const int kMinutesNominative = 0;
 const int kMinutesNominativePeriodMin = 5;
 const int kMinutesNominativePeriodMax = 9;
 const int kMinutesNominativeMin = 10;
@@ -81,7 +81,8 @@ int main(int, char**) {
     if (minutes != kExactHours) {
         if ((minutes % kTheBasisOfTheNumberSystem >= kMinutesNominativePeriodMin &&
              minutes % kTheBasisOfTheNumberSystem <= kMinutesNominativePeriodMax) ||
-            (minutes >= kMinutesNominativeMin && minutes <= kMinutesNominativeMax)) {
+            (minutes >= kMinutesNominativeMin && minutes <= kMinutesNominativeMax) || 
+            (minutes % kTheBasisOfTheNumberSystem == kMinutesNominative)) {
             std::cout << minutes << " минут ";
         } else if (minutes % kTheBasisOfTheNumberSystem >= kMinutesGenitiveMin && minutes % kTheBasisOfTheNumberSystem <= kMinutesGenitiveMax) {
             std::cout << minutes << " минуты ";
