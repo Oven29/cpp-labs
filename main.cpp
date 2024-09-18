@@ -25,7 +25,7 @@ const int kHoursNominative = 1;
 const int kHoursGenitiveMin = 2;
 const int kHoursGenitiveMax = 4;
 
-const int kExactHours = 0;
+const int kFullHourMinutes = 0;
 
 const int kMinutesNominative = 0;
 const int kMinutesNominativePeriodMin = 5;
@@ -35,7 +35,7 @@ const int kMinutesNominativeMax = 20;
 const int kMinutesGenitiveMin = 2;
 const int kMinutesGenitiveMax = 4;
 
-const int kTheBasisOfTheNumberSystem = 10;
+const int kDecimalBase = 10;
 }  // namespace
 
 int main(int, char**) {
@@ -65,10 +65,7 @@ int main(int, char**) {
         return 0;
     }
 
-    int formatedHours = hours;
-    if (formatedHours > kHoursFormat) {
-        formatedHours -= kHoursFormat;
-    }
+    int formatedHours = (hours > kHoursFormat) ? (hours - kHoursFormat) : hours;
 
     if (formatedHours == kHoursNominative) {
         std::cout << formatedHours << " час ";
@@ -78,7 +75,7 @@ int main(int, char**) {
         std::cout << formatedHours << " часов ";
     }
 
-    int firstNumberOfMinutes = minutes % kTheBasisOfTheNumberSystem;
+    int firstNumberOfMinutes = minutes % kDecimalBase;
     if (minutes != kExactHours) {
         if ((firstNumberOfMinutes >= kMinutesNominativePeriodMin && firstNumberOfMinutes <= kMinutesNominativePeriodMax) ||
             (minutes >= kMinutesNominativeMin && minutes <= kMinutesNominativeMax) || (firstNumberOfMinutes == kMinutesNominative)) {
