@@ -21,19 +21,19 @@ const int kNoonHour = 12;
 
 const int kHoursFormat = 12;
 
-const int kHoursNominative = 1;
-const int kHoursGenitiveMin = 2;
-const int kHoursGenitiveMax = 4;
+const int kHoursNominativeSingular = 1;
+const int kHoursGenitivePluralMin = 2;
+const int kHoursGenitivePluralMax = 4;
 
 const int kFullHourMinutes = 0;
 
-const int kMinutesNominative = 0;
-const int kMinutesNominativePeriodMin = 5;
-const int kMinutesNominativePeriodMax = 9;
-const int kMinutesNominativeMin = 10;
-const int kMinutesNominativeMax = 20;
-const int kMinutesGenitiveMin = 2;
-const int kMinutesGenitiveMax = 4;
+const int kMinutesNominativeSingular = 0;
+const int kMinutesNominativePluralPeriodMin = 5;
+const int kMinutesNominativePluralPeriodMax = 9;
+const int kMinutesNominativePluralMin = 10;
+const int kMinutesNominativePluralMax = 20;
+const int kMinutesGenitivePluralMin = 2;
+const int kMinutesGenitivePluralMax = 4;
 
 const int kDecimalBase = 10;
 }  // namespace
@@ -67,9 +67,9 @@ int main(int, char**) {
 
     int formatedHours = (hours > kHoursFormat) ? (hours - kHoursFormat) : hours;
 
-    if (formatedHours == kHoursNominative) {
+    if (formatedHours == kHoursNominativeSingular) {
         std::cout << formatedHours << " час ";
-    } else if (formatedHours >= kHoursGenitiveMin && formatedHours <= kHoursGenitiveMax) {
+    } else if (formatedHours >= kHoursGenitivePluralMin && formatedHours <= kHoursGenitivePluralMax) {
         std::cout << formatedHours << " часа ";
     } else {
         std::cout << formatedHours << " часов ";
@@ -77,10 +77,10 @@ int main(int, char**) {
 
     int firstNumberOfMinutes = minutes % kDecimalBase;
     if (minutes != kFullHourMinutes) {
-        if ((firstNumberOfMinutes >= kMinutesNominativePeriodMin && firstNumberOfMinutes <= kMinutesNominativePeriodMax) ||
-            (minutes >= kMinutesNominativeMin && minutes <= kMinutesNominativeMax) || (firstNumberOfMinutes == kMinutesNominative)) {
+        if ((firstNumberOfMinutes >= kMinutesNominativePluralPeriodMin && firstNumberOfMinutes <= kMinutesNominativePluralPeriodMax) ||
+            (minutes >= kMinutesNominativePluralMin && minutes <= kMinutesNominativePluralMax) || (firstNumberOfMinutes == kMinutesNominativeSingular)) {
             std::cout << minutes << " минут ";
-        } else if (firstNumberOfMinutes >= kMinutesGenitiveMin && firstNumberOfMinutes <= kMinutesGenitiveMax) {
+        } else if (firstNumberOfMinutes >= kMinutesGenitivePluralMin && firstNumberOfMinutes <= kMinutesGenitivePluralMax) {
             std::cout << minutes << " минуты ";
         } else {
             std::cout << minutes << " минута ";
