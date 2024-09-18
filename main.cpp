@@ -21,21 +21,21 @@ const int kNoonHour = 12;
 
 const int kHoursFormat = 12;
 
-const int kHoursGenetiveCaseMin = 0;
-const int kHoursGenetiveCaseMax = 4;
-const int kHoursNominativeCase = 1;
+const int kHoursNominative = 1;
+const int kHoursGenitiveMin = 2;
+const int kHoursGenitiveMax = 4;
 
-const int kExactMinutes = 0;
+const int kExactHours = 0;
 
-const int kMinutesNominativeCase = 1;
-const int kMinutesNominativeCasePeriodMin = 5;
-const int kMinutesNominativeCasePeriodMax = 9;
-const int kMinutesNominativeCaseMin = 10;
-const int kMinutesNominativeCaseMax = 20;
-const int kMinutesGenetiveCaseMin = 2;
-const int kMinutesGenetiveCaseMax = 4;
+const int kMinutesNominative = 1;
+const int kMinutesNominativePeriodMin = 5;
+const int kMinutesNominativePeriodMax = 9;
+const int kMinutesNominativeMin = 10;
+const int kMinutesNominativeMax = 20;
+const int kMinutesGenitiveMin = 2;
+const int kMinutesGenitiveMax = 4;
 
-const int kDecimal = 10;
+const int kTheBasisOfTheNumberSystem = 10;
 }  // namespace
 
 int main(int, char**) {
@@ -55,12 +55,12 @@ int main(int, char**) {
         return 1;
     }
 
-    if (hours == kMidnightHour && minutes == kExactMinutes) {
+    if (hours == kMidnightHour && minutes == kExactHours) {
         std::cout << "Полночь\n";
         return 0;
     }
 
-    if (hours == kNoonHour && minutes == kExactMinutes) {
+    if (hours == kNoonHour && minutes == kExactHours) {
         std::cout << "Полдень\n";
         return 0;
     }
@@ -70,19 +70,20 @@ int main(int, char**) {
         formatedHours -= kHoursFormat;
     }
 
-    if (formatedHours == kHoursNominativeCase) {
+    if (formatedHours == kHoursNominative) {
         std::cout << formatedHours << " час ";
-    } else if (formatedHours >= kHoursGenetiveCaseMin && formatedHours <= kHoursGenetiveCaseMax) {
+    } else if (formatedHours >= kHoursGenitiveMin && formatedHours <= kHoursGenitiveMax) {
         std::cout << formatedHours << " часа ";
     } else {
         std::cout << formatedHours << " часов ";
     }
 
-    if (minutes != kExactMinutes) {
-        if ((minutes % kDecimal >= kMinutesNominativeCasePeriodMin && minutes % kDecimal <= kMinutesNominativeCasePeriodMax) ||
-            (minutes >= kMinutesNominativeCaseMin && minutes <= kMinutesNominativeCaseMax)) {
+    if (minutes != kExactHours) {
+        if ((minutes % kTheBasisOfTheNumberSystem >= kMinutesNominativePeriodMin &&
+             minutes % kTheBasisOfTheNumberSystem <= kMinutesNominativePeriodMax) ||
+            (minutes >= kMinutesNominativeMin && minutes <= kMinutesNominativeMax)) {
             std::cout << minutes << " минут ";
-        } else if (minutes % kDecimal >= kMinutesGenetiveCaseMin && minutes % kDecimal <= kMinutesGenetiveCaseMax) {
+        } else if (minutes % kTheBasisOfTheNumberSystem >= kMinutesGenitiveMin && minutes % kTheBasisOfTheNumberSystem <= kMinutesGenitiveMax) {
             std::cout << minutes << " минуты ";
         } else {
             std::cout << minutes << " минута ";
@@ -99,7 +100,7 @@ int main(int, char**) {
         std::cout << "ночи";
     }
 
-    if (minutes == kExactMinutes) {
+    if (minutes == kExactHours) {
         std::cout << " ровно";
     }
     std::cout << "\n";
