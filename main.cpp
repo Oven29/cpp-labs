@@ -78,13 +78,12 @@ int main(int, char**) {
         std::cout << formatedHours << " часов ";
     }
 
+    int firstNumberOfMinutes = minutes % kTheBasisOfTheNumberSystem;
     if (minutes != kExactHours) {
-        if ((minutes % kTheBasisOfTheNumberSystem >= kMinutesNominativePeriodMin &&
-             minutes % kTheBasisOfTheNumberSystem <= kMinutesNominativePeriodMax) ||
-            (minutes >= kMinutesNominativeMin && minutes <= kMinutesNominativeMax) || 
-            (minutes % kTheBasisOfTheNumberSystem == kMinutesNominative)) {
+        if ((firstNumberOfMinutes >= kMinutesNominativePeriodMin && firstNumberOfMinutes <= kMinutesNominativePeriodMax) ||
+            (minutes >= kMinutesNominativeMin && minutes <= kMinutesNominativeMax) || (firstNumberOfMinutes == kMinutesNominative)) {
             std::cout << minutes << " минут ";
-        } else if (minutes % kTheBasisOfTheNumberSystem >= kMinutesGenitiveMin && minutes % kTheBasisOfTheNumberSystem <= kMinutesGenitiveMax) {
+        } else if (firstNumberOfMinutes >= kMinutesGenitiveMin && firstNumberOfMinutes <= kMinutesGenitiveMax) {
             std::cout << minutes << " минуты ";
         } else {
             std::cout << minutes << " минута ";
