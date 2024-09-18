@@ -78,7 +78,8 @@ int main(int, char**) {
     int firstNumberOfMinutes = minutes % kDecimalBase;
     if (minutes != kFullHourMinutes) {
         if ((firstNumberOfMinutes >= kMinutesNominativePluralPeriodMin && firstNumberOfMinutes <= kMinutesNominativePluralPeriodMax) ||
-            (minutes >= kMinutesNominativePluralMin && minutes <= kMinutesNominativePluralMax) || (firstNumberOfMinutes == kMinutesNominativeSingular)) {
+            (minutes >= kMinutesNominativePluralMin && minutes <= kMinutesNominativePluralMax) ||
+            (firstNumberOfMinutes == kMinutesNominativeSingular)) {
             std::cout << minutes << " минут ";
         } else if (firstNumberOfMinutes >= kMinutesGenitivePluralMin && firstNumberOfMinutes <= kMinutesGenitivePluralMax) {
             std::cout << minutes << " минуты ";
