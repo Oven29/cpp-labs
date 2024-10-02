@@ -1,25 +1,52 @@
 #include <cmath>
 #include <iostream>
+#include <iomanip>
+
+namespace {
+const int kFive = 5;
+}  // namespace
 
 void task1() {
-    int n = 0;
-    int m = 0;
-    std::cout << "Введите n и m через пробел " << std::endl;
+    float n = 0;
+    float m = 0;
+    std::cout << "Введите n и m через пробел (n >= 1, m < n)" << std::endl;
     std::cin >> n >> m;
 
-    int sum = 0;
+    if (n < 1) {
+        std::cout << "n должно быть больше 1" << std::endl;
+        return;
+    }
 
-    for (int i = 5; i <= n; i += 5) {
-        if (i % m != 0) {
-            sum += 1;
+    if (m >= n) {
+        std::cout << "m должно быть меньше n" << std::endl;
+        return;
+    }
+
+    int result = 0;
+
+    for (int i = 0; i <= n; i += kFive) {
+        if (fmod(i, m) != 0) {
+            result += 1;
         }
     }
 
-    std::cout << "Результат - " << sum << std::endl;
+    std::cout << "Результат - " << result << std::endl;
 }
 
 void task2() {
-    std::cout << "task2" << std::endl;
+    int a = 0;
+    std::cout << "Введите a " << std::endl;
+    std::cin >> a;
+
+    int result = 0;
+
+    if (a >= 0) {
+        
+    } else {
+
+    }
+
+    std::cout << "Результат - " << result << std::endl;
 }
 
 void task3() {
