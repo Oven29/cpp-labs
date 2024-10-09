@@ -7,6 +7,7 @@ const int kTwo = 2;
 const int kThree = 3;
 const int kFive = 5;
 const int kEight = 8;
+const int kTen = 10;
 
 const int kPrecision = 6;
 const float kStepTaskThree = 0.2;
@@ -89,7 +90,26 @@ void task3() {
 }
 
 void task4() {
-    std::cout << "task4" << std::endl;
+    int n = 0;
+    double y = 0;
+
+    std::cout << "Введите число n" << std::endl;
+    std::cin >> n;
+
+    int cycles = 0;
+    for (int i = 2 * n; i >= 2; i -= 2) {
+        cycles += 1;
+        if (i == 2 * n) {
+            y = 1.0 / i;
+        } else {
+            y = 1.0 / (i + y);
+        }
+        if (cycles == 3 || cycles == kFive || cycles == kTen) {
+            std::cout << "Промежуточный результат при " << cycles << " слагаемых: " << std::setprecision(kPrecision) << y << std::endl;
+        }
+    }
+
+    std::cout << "Результат выполнения 4 задачи с n=" << n << " - " << y << std::endl;
 }
 
 int main(int, char**) {
