@@ -1,14 +1,14 @@
 #include <cmath>
-#include <iostream>
 #include <iomanip>
+#include <iostream>
 
 namespace {
 const int kFive = 5;
 }  // namespace
 
 void task1() {
-    float n = 0;
-    float m = 0;
+    int n = 0;
+    int m = 0;
     std::cout << "Введите n и m через пробел (n >= 1, m < n)" << std::endl;
     std::cin >> n >> m;
 
@@ -25,12 +25,12 @@ void task1() {
     int result = 0;
 
     for (int i = 0; i <= n; i += kFive) {
-        if (fmod(i, m) != 0) {
+        if (i % m != 0) {
             result += 1;
         }
     }
 
-    std::cout << "Результат - " << result << std::endl;
+    std::cout << "Результат выполнения 1 программы с n=" << n << " и m=" << m << " - " << result << std::endl;
 }
 
 void task2() {
@@ -41,12 +41,10 @@ void task2() {
     int result = 0;
 
     if (a >= 0) {
-        
     } else {
-
     }
 
-    std::cout << "Результат - " << result << std::endl;
+    std::cout << "Результат выполнения 2 задачи с a=" << a << " - " << result << std::endl;
 }
 
 void task3() {
@@ -57,37 +55,27 @@ void task4() {
     std::cout << "task4" << std::endl;
 }
 
-[[noreturn]] void start() {
-    int mode = 0;
-    std::cout << "Введите цифру от 1 до 4 для запуска соответсвующей программы ";
-    std::cout << "или любую другую цифру для выхода" << std::endl;
-    std::cin >> mode;
-
-    switch (mode) {
-        case 1:
-            task1();
-            start();
-            break;
-        case 2:
-            task1();
-            start();
-            break;
-        case 3:
-            task1();
-            start();
-            break;
-        case 4:
-            task1();
-            start();
-            break;
-        default:
-            exit(0);
-            break;
-    }
-}
-
 int main(int, char**) {
-    start();
+    int mode = 0;
+    bool appIsRunning = true;
+
+    while (appIsRunning) {
+        std::cout << "Введите цифру от 1 до 4 для запуска соответсвующей программы ";
+        std::cout << "или любую другую цифру для выхода" << std::endl;
+        std::cin >> mode;
+
+        if (mode == 1) {
+            task1();
+        } else if (mode == 2) {
+            task2();
+        } else if (mode == 3) {
+            task3();
+        } else if (mode == 4) {
+            task4();
+        } else {
+            appIsRunning = false;
+        }
+    }
 
     return 0;
 }
