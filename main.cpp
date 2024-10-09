@@ -7,6 +7,11 @@ const int kTwo = 2;
 const int kThree = 3;
 const int kFive = 5;
 const int kEight = 8;
+
+const int kPrecision = 6;
+const float kStepTaskThree = 0.2;
+const double kMaxInaccuracy = 1 / pow(10, 6);
+const int kColoumnWidth = 10;
 }  // namespace
 
 void task1() {
@@ -57,7 +62,25 @@ void task2() {
 }
 
 void task3() {
-    std::cout << "task3" << std::endl;
+    std::cout << std::setw(kColoumnWidth) << "x" << std::setw(kColoumnWidth) << "Y(x)" << std::setw(kColoumnWidth) << " S(x)"
+              << std::setw(kColoumnWidth) << "N" << std::endl;
+
+    for (float x = 0; x <= 1.0; x += kStepTaskThree) {
+        std::cout << std::setw(kColoumnWidth) << x << std::setw(kColoumnWidth) << std::setprecision(kPrecision) << cos(x);
+        int n = 1;
+        double result = 1.0;
+        double last = 1.0;
+        double k = 0;
+
+        while (fabs(last) > kMaxInaccuracy) {
+            k = -1 * (x * x) / ((n * 2) * (n * 2 - 1));
+            last *= k;
+            result += last;
+            n++;
+        }
+
+        std::cout << std::setw(kColoumnWidth) << std::setprecision(kPrecision) << result << std::setw(kColoumnWidth) << n - 1 << std::endl;
+    }
 }
 
 void task4() {
