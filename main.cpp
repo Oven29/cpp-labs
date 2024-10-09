@@ -3,7 +3,10 @@
 #include <iostream>
 
 namespace {
+const int kTwo = 2;
+const int kThree = 3;
 const int kFive = 5;
+const int kEight = 8;
 }  // namespace
 
 void task1() {
@@ -38,10 +41,16 @@ void task2() {
     std::cout << "Введите a " << std::endl;
     std::cin >> a;
 
-    int result = 0;
+    int result = 1;
 
     if (a >= 0) {
+        for (int i = 2; i <= kEight; i += kTwo) {
+            result *= i * i - a;
+        }
     } else {
+        for (int i = 3; i <= kThree; i += kThree) {
+            result *= i - 2;
+        }
     }
 
     std::cout << "Результат выполнения 2 задачи с a=" << a << " - " << result << std::endl;
