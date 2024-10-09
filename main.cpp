@@ -22,12 +22,12 @@ void task1() {
     std::cin >> n >> m;
 
     if (n < 1) {
-        std::cout << "n должно быть больше 1" << std::endl;
+        std::cout << "Неверный ввод! n должно быть больше 1" << std::endl;
         return;
     }
 
     if (m >= n) {
-        std::cout << "m должно быть меньше n" << std::endl;
+        std::cout << "Неверный ввод! m должно быть меньше n" << std::endl;
         return;
     }
 
@@ -68,8 +68,8 @@ double calculateK(double x, int n) {
 }
 
 void task3() {
-    std::cout << std::setw(kColoumnWidth) << "x" << std::setw(kColoumnWidth) << "Y(x)" << std::setw(kColoumnWidth) << " S(x)"
-              << std::setw(kColoumnWidth) << "N" << std::endl;
+    std::cout << std::setw(kColoumnWidth) << "x" << std::setw(kColoumnWidth) << "Y(x)";
+    std::cout << std::setw(kColoumnWidth) << " S(x)" << std::setw(kColoumnWidth) << "N" << std::endl;
 
     for (float x = 0; x <= 1.0; x += kStepTaskThree) {
         std::cout << std::setw(kColoumnWidth) << x << std::setw(kColoumnWidth) << std::setprecision(kPrecision) << cos(x);
@@ -85,7 +85,8 @@ void task3() {
             n++;
         }
 
-        std::cout << std::setw(kColoumnWidth) << std::setprecision(kPrecision) << result << std::setw(kColoumnWidth) << n - 1 << std::endl;
+        std::cout << std::setw(kColoumnWidth) << std::setprecision(kPrecision) << result;
+        std::cout << std::setw(kColoumnWidth) << n - 1 << std::endl;
     }
 }
 
@@ -105,7 +106,8 @@ void task4() {
             y = 1.0 / (i + y);
         }
         if (cycles == 3 || cycles == kFive || cycles == kTen) {
-            std::cout << "Промежуточный результат при " << cycles << " слагаемых: " << std::setprecision(kPrecision) << y << std::endl;
+            std::cout << "Промежуточный результат при " << cycles << " слагаемых - ";
+            std::cout << std::setprecision(kPrecision) << y << std::endl;
         }
     }
 
