@@ -61,6 +61,11 @@ void task2() {
     std::cout << "Результат выполнения 2 задачи с a=" << a << " - " << result << std::endl;
 }
 
+double calculateK(double x, int n) {
+    double k = -1 * (x * x) / ((n * 2) * (n * 2 - 1));
+    return k;
+}
+
 void task3() {
     std::cout << std::setw(kColoumnWidth) << "x" << std::setw(kColoumnWidth) << "Y(x)" << std::setw(kColoumnWidth) << " S(x)"
               << std::setw(kColoumnWidth) << "N" << std::endl;
@@ -73,7 +78,7 @@ void task3() {
         double k = 0;
 
         while (fabs(last) > kMaxInaccuracy) {
-            k = -1 * (x * x) / ((n * 2) * (n * 2 - 1));
+            k = calculateK(x, n);
             last *= k;
             result += last;
             n++;
