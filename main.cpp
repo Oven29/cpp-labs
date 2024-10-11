@@ -72,7 +72,6 @@ void task3() {
     std::cout << std::setw(kColoumnWidth) << " S(x)" << std::setw(kColoumnWidth) << "N" << std::endl;
 
     for (float x = 0; x <= 1.0; x += kStepTaskThree) {
-        std::cout << std::setw(kColoumnWidth) << x << std::setw(kColoumnWidth) << std::setprecision(kPrecision) << cos(x);
         int n = 1;
         double result = 1.0;
         double last = 1.0;
@@ -85,6 +84,8 @@ void task3() {
             n++;
         }
 
+        std::cout << std::setw(kColoumnWidth) << x;
+        std::cout << std::setw(kColoumnWidth) << std::setprecision(kPrecision) << cos(x);
         std::cout << std::setw(kColoumnWidth) << std::setprecision(kPrecision) << result;
         std::cout << std::setw(kColoumnWidth) << n - 1 << std::endl;
     }
@@ -98,14 +99,12 @@ void task4() {
     std::cin >> n;
 
     int cycles = 0;
+
     for (int i = 2 * n; i >= 2; i -= 2) {
         cycles += 1;
-        if (i == 2 * n) {
-            y = 1.0 / i;
-        } else {
-            y = 1.0 / (i + y);
-        }
-        if (cycles == 3 || cycles == kFive || cycles == kTen) {
+        y = i == 2 * n ? 1.0 / i : 1.0 / (i + y);
+
+        if (cycles == kThree || cycles == kFive || cycles == kTen) {
             std::cout << "Промежуточный результат при " << cycles << " слагаемых - ";
             std::cout << std::setprecision(kPrecision) << y << std::endl;
         }
