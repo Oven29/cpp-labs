@@ -102,7 +102,7 @@ void task4() {
 
     for (int i = 2 * n; i >= 2; i -= 2) {
         cycles += 1;
-        y = i == 2 * n ? 1.0 / i : 1.0 / (i + y);
+        y = 1.0 / (i + y);
 
         if (cycles == kThree || cycles == kFive || cycles == kTen) {
             std::cout << "Промежуточный результат при " << cycles << " слагаемых - ";
