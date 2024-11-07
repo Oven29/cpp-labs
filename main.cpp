@@ -35,7 +35,7 @@ void task1() {
 
     for (int i = 0; i <= n; i += kFive) {
         if (i % m != 0) {
-            result += 1;
+            result += i;
         }
     }
 
