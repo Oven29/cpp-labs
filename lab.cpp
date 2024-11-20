@@ -50,6 +50,12 @@ void PrintArrayFormatted(int* arr, size_t size, lab::SortMethod sortMethod, int 
 
 }  // namespace
 
+void copyArray(int* source, int* destination, size_t size) {
+    for (size_t i = 0; i < size; ++i) {
+        destination[i] = source[i];
+    }
+}
+
 namespace lab {
 void SelectMethodAndRun() {
     int lab = 0;
@@ -102,11 +108,13 @@ void RunDynamicTask() {
 
     int* dynamicArr = new int[size];
     randmodule::FillArray(dynamicArr, size);
+    int* arrCopy = new int[size];
+    copyArray(dynamicArr, arrCopy, size);
 
     PrintInitialArray(dynamicArr, size);
 
     ExecuteSortingTask(SortMethod::BubbleSort, CmpAsc, dynamicArr, size);
-    ExecuteSortingTask(SortMethod::SelectionSort, CmpAsc, dynamicArr, size);
+    ExecuteSortingTask(SortMethod::SelectionSort, CmpAsc, arrCopy, size);
 
     delete[] dynamicArr;
 }

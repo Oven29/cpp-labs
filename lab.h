@@ -7,7 +7,7 @@ typedef unsigned long size_t;
 
 namespace lab {
 
-const int kStaticArraySize = 8;
+const int kStaticArraySize = 3;
 using CmpFn = bool (*)(int, int);
 
 enum class Task {
