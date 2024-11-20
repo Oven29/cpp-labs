@@ -166,7 +166,7 @@ void BubbleSort(CmpFn cmp, int* arr, size_t size, SortBenchmark& benchmark) {
         anySwapped = false;
 
         for (size_t j = 0; j < size - i - 1; ++j) {
-            if (!cmp(arr[j], arr[j + 1])) {
+            if (!cmp(arr[j], arr[j + 1]) && arr[j] != arr[j + 1]) {
                 int temp = arr[j];
                 arr[j] = arr[j + 1];
                 arr[j + 1] = temp;
