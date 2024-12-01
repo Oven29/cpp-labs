@@ -1,5 +1,5 @@
 #pragma once
 
-namespace test {
-void helloWorld();
+namespace App {
+void Run(void (*)());
 }
