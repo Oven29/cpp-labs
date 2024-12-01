@@ -4,6 +4,8 @@
 #include <stdexcept>
 
 namespace {
+const int kRequiredArgumentsCount = 5;
+
 constexpr const char* kSourceFileArgument = "--source-file=";
 constexpr const char* kKeyFileArgument = "--key-file=";
 constexpr const char* kDecodeFileArgument = "--decode-file=";
@@ -32,7 +34,7 @@ namespace parseArgs {
 Args parse(int argc, char** argv) {
     Args args{};
 
-    if (argc != 4) {
+    if (argc != kRequiredArgumentsCount) {
         ThrowException();
     }
 

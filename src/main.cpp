@@ -12,11 +12,14 @@ int main(int argc, char** argv) {
     // }
 
     // FS::WriteFile("test.txt", "New text");
-    char* content = FS::ReadFile("test2.txt");
-    std::cout << content << std::endl;
+    // char* content = FS::ReadFile("test2.txt");
+    // std::cout << content << std::endl;
 
-    // parseArgs::Args args = parseArgs::parse(argc, argv);
-    // std::cout << args.sourceFile << std::endl;
+    parseArgs::Args args = parseArgs::parse(argc, argv);
+    std::cout << "Source file: " << args.sourceFile << std::endl;
+    std::cout << "Key file: " << args.keyFile << std::endl;
+    std::cout << "Decode file: " << args.decodeFile << std::endl;
+    std::cout << "Encode file: " << args.encodeFile << std::endl;
 
     // PushBack(vector, 1);
     // PrintVector(vector);
@@ -37,9 +40,9 @@ int main(int argc, char** argv) {
 
     // Vector::DeleteVector(vector);
 
-    for (int i = 0; i < argc; i++) {
-        std::cout << argv[i] << std::endl;
-    }
+    // for (int i = 0; i < argc; i++) {
+    //     std::cout << argv[i] << std::endl;
+    // }
 
     // std::cout << argv[0] << std::endl;
 
