@@ -4,11 +4,11 @@
 #include <stdexcept>
 
 namespace {
-    const int kSourceFileArgumentLenght = 14;
-    const int kKeyFileArgumentLenght = 11;
-    const int kDecodeFileArgumentLenght = 14;
-    const int kEncodeFileArgumentLenght = 14;
-}
+const int kSourceFileArgumentLenght = 14;
+const int kKeyFileArgumentLenght = 11;
+const int kDecodeFileArgumentLenght = 14;
+const int kEncodeFileArgumentLenght = 14;
+}  // namespace
 
 namespace parseArgs {
 Args parse(int argc, char** argv) {
@@ -16,8 +16,7 @@ Args parse(int argc, char** argv) {
 
     if (argc != 4) {
         std::cout << "Usage:\nfilename <source_file> <key_file> <decode_file> <encode_file>\nor\n"
-                  << "filename --source-file=<source_file> --key-file=<key_file> --decode-file=<decode_file> --encode-file=<encode_file>"
-                  << "\n\n";
+                  << "filename --source-file=<source_file> --key-file=<key_file> --decode-file=<decode_file> --encode-file=<encode_file>" << "\n\n";
 
         throw std::invalid_argument("Invalid number of arguments");
     }
