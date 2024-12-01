@@ -1,5 +1,6 @@
 dev:
-	g++ -std=c++20 -Wall -Werror -Wextra -Wpedantic *.cpp -o binary.out && ./binary.out
+	mkdir -p app
+	g++ -std=c++20 -Wall -Werror -Wextra -Wpedantic *.cpp -o bin/app && ./bin/app
 
 check:
 	clang-tidy *.cpp
@@ -7,6 +8,8 @@ check:
 
 build:
 	echo "Building..."
-	mkdir build && cd build
+	rm -rf build
+	mkdir build
+	cd build
 	cmake ..
 	cmake --build .
