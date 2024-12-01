@@ -7,4 +7,6 @@ struct Args {
     char* decodeFile = nullptr;
     char* encodeFile = nullptr;
 };
+
+[[nodiscard]] Args parse(int argc, char** argv);
 }  // namespace parseArgs

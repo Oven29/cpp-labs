@@ -92,6 +92,6 @@ void PrintVector(const Vector::VecInt& vector) {
         std::cout << Vector::GetElement(vector, vector.size - 1);
     }
 
-    std::cout << ']' << std::endl;
+    std::cout << ']\n';
 }
 }  // namespace Vector

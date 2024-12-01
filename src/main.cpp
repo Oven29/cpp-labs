@@ -1,13 +1,16 @@
 #include "collections/Vector.h"
+#include "utils/parseArgs.h"
 #include <iostream>
 
 int main(int argc, char** argv) {
     Vector::VecInt vector = Vector::CreateVector();
     PrintVector(vector);
 
-    for (int i = 0; i < -1; ++i) {
-        std::cout << i << std::endl;
-    }
+    // for (int i = 0; i < -1; ++i) {
+    //     std::cout << i << std::endl;
+    // }
+    parseArgs::Args args = parseArgs::parse(argc, argv);
+    std::cout << args.sourceFile << std::endl;
 
     PushBack(vector, 1);
     PrintVector(vector);
