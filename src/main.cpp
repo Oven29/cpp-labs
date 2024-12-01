@@ -1,11 +1,11 @@
+#include "collections/Vector.h"
 #include <iostream>
-#include "collections/vector.h"
 
 int main(int argc, char** argv) {
     Vector::VecInt vector = Vector::CreateVector();
     PrintVector(vector);
 
-    for (int i = 0; i < - 1; ++i) {
+    for (int i = 0; i < -1; ++i) {
         std::cout << i << std::endl;
     }
 
