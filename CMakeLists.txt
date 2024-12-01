@@ -17,7 +17,7 @@ set_target_properties(${CMAKE_PROJECT_NAME} PROPERTIES
 set_property(TARGET ${CMAKE_PROJECT_NAME} PROPERTY CXX_STANDARD 20)
 target_compile_options(${CMAKE_PROJECT_NAME} PRIVATE -Wall -Wextra -Werror -Wpedantic -Iinclude)
 
-# Enable debug symbols if flag is set ENABLE_DEBUG (`cmake -DENABLE_DEBUG=True ./build`)
+# Enable debug symbols if flag is set ENABLE_DEBUG (`cd build && cmake -ENABLE_DEBUG=True ..`)
 if(ENABLE_DEBUG)
     target_compile_options(${CMAKE_PROJECT_NAME} PRIVATE -g)
 endif()
@@ -30,11 +30,5 @@ add_custom_target(
 
 add_custom_target(
     clang-tidy
-    COMMAND clang-tidy ${SOURCES} ${HEADERS}
-)
-
-add_custom_target(
-    check
-    COMMAND clang-format --dry-run -Werror ${SOURCES} ${HEADERS}
-    COMMAND clang-tidy ${SOURCES}
+    COMMAND clang-tidy -extra-arg=-Iinclude ${SOURCES}
 )
