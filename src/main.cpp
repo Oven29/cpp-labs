@@ -1,5 +1,6 @@
 #include "collections/Vector.h"
 #include "utils/parseArgs.h"
+#include "utils/FS.h"
 #include <iostream>
 
 int main(int argc, char** argv) {
@@ -9,31 +10,38 @@ int main(int argc, char** argv) {
     // for (int i = 0; i < -1; ++i) {
     //     std::cout << i << std::endl;
     // }
-    parseArgs::Args args = parseArgs::parse(argc, argv);
-    std::cout << args.sourceFile << std::endl;
 
-    PushBack(vector, 1);
-    PrintVector(vector);
+    // FS::WriteFile("test.txt", "New text");
+    char* content = FS::ReadFile("test2.txt");
+    std::cout << content << std::endl;
 
-    const int a = 10;
-    PushBack(vector, a);
-    PrintVector(vector);
+    // parseArgs::Args args = parseArgs::parse(argc, argv);
+    // std::cout << args.sourceFile << std::endl;
 
-    PushBack(vector, 3);
-    PrintVector(vector);
+    // PushBack(vector, 1);
+    // PrintVector(vector);
 
-    const int b = 20;
-    PushBack(vector, b);
-    PrintVector(vector);
+    // const int a = 10;
+    // PushBack(vector, a);
+    // PrintVector(vector);
 
-    GetElement(vector, 0) = 2;
-    PrintVector(vector);
+    // PushBack(vector, 3);
+    // PrintVector(vector);
 
-    Vector::DeleteVector(vector);
+    // const int b = 20;
+    // PushBack(vector, b);
+    // PrintVector(vector);
+
+    // GetElement(vector, 0) = 2;
+    // PrintVector(vector);
+
+    // Vector::DeleteVector(vector);
 
     for (int i = 0; i < argc; i++) {
         std::cout << argv[i] << std::endl;
     }
+
+    // std::cout << argv[0] << std::endl;
 
     return 0;
 }
