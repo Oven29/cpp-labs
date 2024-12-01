@@ -5,19 +5,19 @@ project(CaesarCipher)
 set(CMAKE_CXX_CLANG_TIDY "clang-tidy")
 
 # Add source files
-file(GLOB_RECURSE SOURCES "${CMAKE_CURRENT_SOURCE_DIR}/src/*.cpp")
-file(GLOB_RECURSE HEADERS "${CMAKE_CURRENT_SOURCE_DIR}/include/*.hpp")
+file(GLOB_RECURSE SOURCES ${CMAKE_CURRENT_SOURCE_DIR}/src/*.cpp)
 
-# Add main file
-set(SOURCES
-    ${CMAKE_CURRENT_SOURCE_DIR}/main.cpp
+add_executable(${CMAKE_PROJECT_NAME} ${SOURCES})
+
+target_include_directories(${CMAKE_PROJECT_NAME} PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/include)
+
+set_target_properties(${CMAKE_PROJECT_NAME} PROPERTIES
+    RUNTIME_OUTPUT_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/bin
 )
-
-add_executable(${CMAKE_PROJECT_NAME} ${SOURCES} ${HEADERS})
 set_property(TARGET ${CMAKE_PROJECT_NAME} PROPERTY CXX_STANDARD 20)
-target_compile_options(${CMAKE_PROJECT_NAME} PRIVATE -Iinclude -Wall -Wextra -Werror -Wpedantic)
+target_compile_options(${CMAKE_PROJECT_NAME} PRIVATE -Wall -Wextra -Werror -Wpedantic -Iinclude)
 
-# Enable debug symbols if flag is set ENABLE_DEBUG (`cmake -DENABLE_DEBUG=True ..`)
+# Enable debug symbols if flag is set ENABLE_DEBUG (`cmake -DENABLE_DEBUG=True ./build`)
 if(ENABLE_DEBUG)
     target_compile_options(${CMAKE_PROJECT_NAME} PRIVATE -g)
 endif()
@@ -30,7 +30,7 @@ add_custom_target(
 
 add_custom_target(
     clang-tidy
-    COMMAND clang-tidy ${SOURCES}
+    COMMAND clang-tidy ${SOURCES} ${HEADERS}
 )
 
 add_custom_target(
