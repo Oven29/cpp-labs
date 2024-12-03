@@ -1,5 +1,5 @@
 #pragma once
 
 namespace App {
-void Run(void (*)());
+void Run(int argc, char** argv);
 }
