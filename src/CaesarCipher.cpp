@@ -1,38 +1,81 @@
 #include "CaesarCipher.h"
 #include <cctype>
-#include <cstddef>
 #include <cstring>
 #include <iostream>
-#include <map>
-#include <set>
-#include <string>
-#include <vector>
+#include "collections/Vector.h"
 
 namespace {
 
-std::vector<std::string> splitWords(const std::string& text) {
-    std::vector<std::string> words;
-    std::string word;
-    for (char c : text) {
-        if (std::isalnum(c)) {
-            word += c;
-        } else if (!word.empty()) {
-            words.push_back(word);
-            word.clear();
-        }
-    }
-    if (!word.empty()) {
-        words.push_back(word);
-    }
-    return words;
+// Вспомогательная функция: проверка, является ли символ частью слова
+bool IsWordChar(char c) {
+    return std::isalnum(static_cast<unsigned char>(c));
 }
 
-int calculateWordSum(const std::string& word) {
+// Вспомогательная функция: подсчёт суммы ASCII-кодов символов в слове
+int CalculateWordShift(const char* word) {
     int sum = 0;
-    for (char c : word) {
-        sum += static_cast<unsigned char>(c);
+    for (size_t i = 0; word[i] != '\0'; ++i) {
+        sum += static_cast<unsigned char>(word[i]);
     }
     return sum;
+}
+
+// Вспомогательная функция: извлечение слов из кодового блокнота в VecChar
+void ExtractWords(const char* notebook, Vector::VecChar& words) {
+    Vector::VecChar currentWord = Vector::CreateVector();
+
+    for (size_t i = 0; notebook[i] != '\0'; ++i) {
+        if (IsWordChar(notebook[i])) {
+            Vector::PushBack(currentWord, notebook[i]);
+        } else if (currentWord.size > 0) {
+            Vector::PushBack(currentWord, '\0');
+            for (size_t j = 0; j < currentWord.size; ++j) {
+                Vector::PushBack(words, Vector::GetElement(currentWord, j));
+            }
+            currentWord.size = 0;
+        }
+    }
+
+    if (currentWord.size > 0) {
+        Vector::PushBack(currentWord, '\0');
+        for (size_t j = 0; j < currentWord.size; ++j) {
+            Vector::PushBack(words, Vector::GetElement(currentWord, j));
+        }
+    }
+
+    Vector::DeleteVector(currentWord);
+}
+
+// Вспомогательная функция: выполнение кодирования или декодирования
+char* ProcessText(const char* text, const char* notebook, bool encode) {
+    Vector::VecChar words = Vector::CreateVector();
+    ExtractWords(notebook, words);
+
+    size_t wordIndex = 0;
+    size_t numWords = words.size;
+
+    size_t textLen = std::strlen(text);
+    char* result = new char[textLen + 1];
+
+    for (size_t i = 0; i < textLen; ++i) {
+        if (numWords == 0 || !IsWordChar(text[i])) {
+            result[i] = text[i];
+            continue;
+        }
+
+        const char* currentWord = &Vector::GetElement(words, wordIndex);
+        int shift = CalculateWordShift(currentWord);
+        result[i] = static_cast<char>(encode ? (text[i] + shift) % 128 : (text[i] - shift + 128) % 128);
+
+        wordIndex += std::strlen(currentWord) + 1;
+        if (wordIndex >= numWords) {
+            wordIndex = 0;
+        }
+    }
+
+    result[textLen] = '\0';
+    Vector::DeleteVector(words);
+    return result;
 }
 
 }  // namespace
@@ -40,90 +83,41 @@ int calculateWordSum(const std::string& word) {
 namespace CaesarCipher {
 
 char* Encode(const char* text, const char* notebook) {
-    std::vector<std::string> words = splitWords(notebook);
-    if (words.empty()) {
-        std::cerr << "Error: Notebook is empty!\n";
-        return nullptr;
-    }
-
-    std::string result;
-    size_t wordIndex = 0;
-
-    for (const char* ptr = text; *ptr != '\0'; ++ptr) {
-        int charCode = static_cast<unsigned char>(*ptr);
-        int wordSum = calculateWordSum(words[wordIndex]);
-
-        int newCharCode = (charCode + wordSum) % 128;
-        result += static_cast<char>(newCharCode);
-
-        wordIndex = (wordIndex + 1) % words.size();
-    }
-
-    char* encoded = new char[result.size() + 1];
-    std::copy(result.begin(), result.end(), encoded);
-    encoded[result.size()] = '\0';
-    return encoded;
+    return ProcessText(text, notebook, true);
 }
 
 char* Decode(const char* encodedText, const char* notebook) {
-    std::vector<std::string> words = splitWords(notebook);
-    if (words.empty()) {
-        std::cerr << "Error: Notebook is empty!\n";
-        return nullptr;
-    }
-
-    std::string result;
-    size_t wordIndex = 0;
-
-    for (const char* ptr = encodedText; *ptr != '\0'; ++ptr) {
-        int charCode = static_cast<unsigned char>(*ptr);
-        int wordSum = calculateWordSum(words[wordIndex]);
-
-        int newCharCode = (charCode - wordSum + 128) % 128;
-        result += static_cast<char>(newCharCode);
-
-        wordIndex = (wordIndex + 1) % words.size();
-    }
-
-    char* decoded = new char[result.size() + 1];
-    std::copy(result.begin(), result.end(), decoded);
-    decoded[result.size()] = '\0';
-    return decoded;
+    return ProcessText(encodedText, notebook, false);
 }
 
 void GenerateStatistics(const char* originalText, const char* encodedText, const char* notebook) {
-    std::map<char, int> frequency;
-    std::map<char, std::set<int>> variants;
-    std::vector<std::string> words = splitWords(notebook);
-    size_t wordIndex = 0;
+    size_t textLen = std::strlen(originalText);
 
-    for (const char* ptr = originalText; *ptr != '\0'; ++ptr) {
-        char originalChar = *ptr;
-        int charCode = static_cast<unsigned char>(originalChar);
+    int charCounts[128] = {0};
+    int uniqueEncodings[128] = {0};
 
-        frequency[originalChar]++;
-
-        int wordSum = calculateWordSum(words[wordIndex]);
-        int encodedCharCode = (charCode + wordSum) % 128;
-
-        variants[originalChar].insert(encodedCharCode);
-
-        wordIndex = (wordIndex + 1) % words.size();
+    for (size_t i = 0; i < textLen; ++i) {
+        charCounts[static_cast<unsigned char>(originalText[i])]++;
     }
 
-    std::cout << "Statistics:\n";
-    std::cout << "Symbol\tASCII Code\tFrequency\tVariants\n";
-    for (const auto& entry : frequency) {
-        char symbol = entry.first;
-        int asciiCode = static_cast<unsigned char>(symbol);
-        int freq = entry.second;
-        int variantCount = variants[symbol].size();
-
-        std::cout << symbol << "\t" << asciiCode << "\t" << freq << "\t" << variantCount << "\n";
+    for (int i = 0; i < 128; ++i) {
+        if (charCounts[i] > 0) {
+            for (size_t j = 0; j < textLen; ++j) {
+                if (originalText[j] == i) {
+                    uniqueEncodings[i]++;
+                }
+            }
+        }
     }
 
-    std::cout << "Notebook size (words): " << words.size() << "\n";
-    std::cout << "Original text length: " << std::strlen(originalText) << "\n";
+    std::cout << "Keys length\t" <<  std::strlen(notebook) << std::endl;
+    std::cout << "Text length\t" << textLen << std::endl;
+    std::cout << "Char\tASCII\tCount" << std::endl;
+    for (int i = 0; i < 128; ++i) {
+        if (charCounts[i] > 0) {
+            std::cout << static_cast<char>(i) << "\t" << i << "\t" << charCounts[i] << "\t" << uniqueEncodings[i] << std::endl;
+        }
+    }
 }
 
 }  // namespace CaesarCipher
