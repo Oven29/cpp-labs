@@ -13,6 +13,7 @@ void Run(int argc, char** argv) {
 
     const char* encode = CaesarCipher::Encode(source, notebook);
     const char* decode = source;
+    // const char* decode = CaesarCipher::Decode(encode, notebook);
 
     FS::WriteFile(args.encodeFile, encode);
     FS::WriteFile(args.decodeFile, decode);
