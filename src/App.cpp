@@ -1,19 +1,23 @@
 #include <iostream>
-
-namespace {
-void Execute(int argc, char** argv) {
-}
-}  // namespace
+#include "CaesarCipher.h"
+#include "utils/FS.h"
+#include "utils/parseArgs.h"
 
 namespace App {
+
 void Run(int argc, char** argv) {
-    char input = 'y';
+    parseArgs::Args args = parseArgs::parse(argc, argv);
 
-    while (input == 'y') {
-        Execute(argc, argv);
+    const char* source = FS::ReadFile(args.sourceFile);
+    const char* notebook = FS::ReadFile(args.keyFile);
 
-        std::cout << "Continue? (y/n): ";
-        std::cin >> input;
-    }
+    const char* encode = CaesarCipher::Encode(source, notebook);
+    const char* decode = source;
+
+    FS::WriteFile(args.encodeFile, encode);
+    FS::WriteFile(args.decodeFile, decode);
+
+    CaesarCipher::GenerateStatistics(source, encode, notebook);
 }
+
 }  // namespace App
