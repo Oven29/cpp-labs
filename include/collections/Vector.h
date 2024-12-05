@@ -3,17 +3,19 @@
 #include <cstddef>
 
 namespace Vector {
-struct VecChar {
+
+struct VecInt {
     size_t size{};
     size_t capacity{};
-    char* vector{};
+    int* vector{};
 };
 
-[[nodiscard]] VecChar CreateVector();
-void DeleteVector(VecChar& vector);
+[[nodiscard]] VecInt CreateVector();
+void DeleteVector(VecInt& vector);
 
-[[nodiscard]] char& GetElement(VecChar& vector, size_t index);
-[[nodiscard]] char GetElement(const VecChar& vector, size_t index);
-void PushBack(VecChar& vector, char element);
-void PrintVector(const VecChar& vector);
+[[nodiscard]] int& GetElement(VecInt& vector, size_t index);
+[[nodiscard]] int GetElement(const VecInt& vector, size_t index);
+void PushBack(VecInt& vector, int element);
+void PrintVector(const VecInt& vector);
+
 }  // namespace Vector

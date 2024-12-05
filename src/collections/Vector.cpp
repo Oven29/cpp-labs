@@ -8,17 +8,17 @@ namespace {
 const size_t kDefaultVectorSize = 8;
 const size_t kGrowthFactor = 2;
 
-void ResizeVector(Vector::VecChar& vector) {
+void ResizeVector(Vector::VecInt& vector) {
     if (!vector.vector) {
         throw std::runtime_error("invalid vector");
     }
 
     size_t newVectorSize = vector.capacity * kGrowthFactor;
-    char* buffer = new char[newVectorSize];
+    int* buffer = new int[newVectorSize];
 
     std::copy(vector.vector, vector.vector + vector.size, buffer);
 
-    char* oldVector = vector.vector;
+    int* oldVector = vector.vector;
     vector.vector = buffer;
 
     vector.capacity = newVectorSize;
@@ -28,13 +28,13 @@ void ResizeVector(Vector::VecChar& vector) {
 }  // namespace
 
 namespace Vector {
-VecChar CreateVector() {
-    char* array = new char[kDefaultVectorSize];
+VecInt CreateVector() {
+    int* array = new int[kDefaultVectorSize];
 
     return {.size = 0, .capacity = kDefaultVectorSize, .vector = array};
 }
 
-void DeleteVector(VecChar& vector) {
+void DeleteVector(VecInt& vector) {
     vector.size = 0;
     vector.capacity = 0;
 
@@ -43,7 +43,7 @@ void DeleteVector(VecChar& vector) {
     vector.vector = nullptr;
 }
 
-char& GetElement(VecChar& vector, size_t index) {
+int& GetElement(VecInt& vector, size_t index) {
     if (index >= vector.size) {
         throw std::runtime_error("index out of bound");
     }
@@ -55,7 +55,7 @@ char& GetElement(VecChar& vector, size_t index) {
     return vector.vector[index];
 }
 
-char GetElement(const VecChar& vector, size_t index) {
+int GetElement(const VecInt& vector, size_t index) {
     if (index >= vector.size) {
         throw std::runtime_error("index out of bound");
     }
@@ -67,7 +67,7 @@ char GetElement(const VecChar& vector, size_t index) {
     return vector.vector[index];
 }
 
-void PushBack(VecChar& vector, char element) {
+void PushBack(VecInt& vector, int element) {
     if (!vector.vector) {
         throw std::runtime_error("invalid vector");
     }
