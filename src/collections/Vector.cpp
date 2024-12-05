@@ -79,7 +79,7 @@ void PushBack(VecInt& vector, int element) {
     vector.vector[vector.size++] = element;
 }
 
-void PrintVector(const Vector::VecChar& vector) {
+void PrintVector(const Vector::VecInt& vector) {
     std::cout << '[';
 
     for (size_t i = 0; i < vector.size; i++) {

@@ -17,7 +17,7 @@ void Run(int argc, char** argv) {
     FS::WriteFile(args.encodeFile, encode);
     FS::WriteFile(args.decodeFile, decode);
 
-    CaesarCipher::GenerateStatistics(source, encode, notebook);
+    CaesarCipher::GenerateStatistics(source, encode, decode);
 }
 
 }  // namespace App
