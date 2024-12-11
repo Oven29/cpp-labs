@@ -49,7 +49,7 @@ void PrintTable(App::IntegralPrint integralPrint[]) {
     n = 1;
     double h = b - a;
     double integral = 0.;
-    double previous_integral = 0.;
+    double previousIntegral = 0.;
 
     while (n < kMaxIter) {
         integral = 0.;
@@ -58,11 +58,11 @@ void PrintTable(App::IntegralPrint integralPrint[]) {
             integral += f(a + i * h) * h;
         }
 
-        if (n > 1 && std::fabs(integral - previous_integral) < epsilon) {
+        if (n > 1 && std::fabs(integral - previousIntegral) < epsilon) {
             break;
         }
 
-        previous_integral = integral;
+        previousIntegral = integral;
         n *= 2;
         h /= 2;
     }
@@ -74,7 +74,7 @@ void PrintTable(App::IntegralPrint integralPrint[]) {
     n = 1;
     double h = b - a;
     double integral = 0;
-    double previous_integral = 0;
+    double previousIntegral = 0;
 
     while (n < kMaxIter) {
         integral = 0.0;
@@ -83,11 +83,11 @@ void PrintTable(App::IntegralPrint integralPrint[]) {
             integral += (f(x) + f(x + h)) * h / 2;
         }
 
-        if (n > 1 && std::fabs(integral - previous_integral) < epsilon) {
+        if (n > 1 && std::fabs(integral - previousIntegral) < epsilon) {
             break;
         }
 
-        previous_integral = integral;
+        previousIntegral = integral;
 
         n *= 2;
         h /= 2;
@@ -108,8 +108,10 @@ void Run() {
 
     double epsilon = 0.01;
     int n = 1;
+
     for (int i = 0; i <= 4; ++i) {
         App::IntegralPrint integral_print[4];
+
         integral_print[0].FnName = "y = x        ";
         integral_print[0].actualIntegralSum = IntRect(f1, a, b, epsilon, n);
         integral_print[0].actualIntegralSum = (std::pow(b, 2) - std::pow(a, 2)) / 2.0;
