@@ -23,7 +23,12 @@ const int kColWeight = 15;
     return std::ispunct(c) == 0 && c != ' ' && c != '\n';
 }
 
-[[nodiscard]] Vector::VecInt GetNotebookkeys(const char* notebook) {
+// [[nodiscard]] Vector::VecInt GetNotebookkeys(const char* notebook) {
+    
+//     return keys;
+// }
+
+[[nodiscard]] char* ProccessText(const char* text, const char* notebook, bool encode) {
     Vector::VecInt keys = Vector::CreateVector();
     Vector::PushBack(keys, 0);
 
@@ -35,12 +40,6 @@ const int kColWeight = 15;
             Vector::PushBack(keys, 0);
         }
     }
-
-    return keys;
-}
-
-[[nodiscard]] char* ProccessText(const char* text, const char* notebook, bool encode) {
-    Vector::VecInt keys = GetNotebookkeys(notebook);
 
     const size_t textLength = std::strlen(text);
     char* result = new char[textLength + 1];
@@ -97,9 +96,9 @@ void GenerateStatistics(const char* originalText, const char* encodedText, const
 
     std::cout << "Origin text length: " << originalTextLength << std::endl;
 
-    Vector::VecInt keys = GetNotebookkeys(notebook);
-    std::cout << "Notebook words: " << keys.size << std::endl;
-    Vector::DeleteVector(keys);
+    // Vector::VecInt keys = GetNotebookkeys(notebook);
+    // std::cout << "Notebook words: " << keys.size << std::endl;
+    // Vector::DeleteVector(keys);
 
     std::cout << std::setw(kColWeight) << "Symbol " << std::setw(kColWeight) << "ASCII Code " << std::setw(kColWeight) << "Frequency "
               << std::setw(kColWeight) << "Unique Encodings " << std::endl;

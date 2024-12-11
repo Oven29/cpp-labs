@@ -82,11 +82,12 @@ void PushBack(VecInt& vector, int element) {
         throw std::runtime_error("invalid vector");
     }
 
-    if (vector.size >= vector.capacity) {
+    if (vector.size == vector.capacity - 1) {
         ResizeVector(vector);
     }
 
-    vector.vector[vector.size++] = element;
+    vector.size++;
+    vector.vector[vector.size] = element;
 }
 
 void PrintVector(const Vector::VecInt& vector) {
