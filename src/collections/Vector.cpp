@@ -14,20 +14,30 @@ void ResizeVector(Vector::VecInt& vector) {
     }
 
     size_t newVectorSize = vector.capacity * kGrowthFactor;
-    int* buffer = new int[newVectorSize];
+
+    if (newVectorSize <= vector.capacity) {
+        throw std::runtime_error("vector capacity overflow");
+    }
+
+    int* buffer = nullptr;
+    try {
+        buffer = new int[newVectorSize];
+    } catch (const std::bad_alloc&) {
+        throw std::runtime_error("failed to allocate memory");
+    }
 
     std::copy(vector.vector, vector.vector + vector.size, buffer);
 
-    int* oldVector = vector.vector;
+    delete[] vector.vector;
+
     vector.vector = buffer;
-
     vector.capacity = newVectorSize;
-
-    delete[] oldVector;
 }
-}  // namespace
+
+}
 
 namespace Vector {
+
 VecInt CreateVector() {
     int* array = new int[kDefaultVectorSize];
 

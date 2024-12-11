@@ -1,12 +1,15 @@
 #include "CaesarCipher.h"
 #include <cctype>
 #include <cstring>
+#include <iomanip>
 #include <iostream>
 #include "collections/Vector.h"
 
 namespace {
 
 const int kMod = 128;
+
+const int kColWeight = 15;
 
 [[nodiscard]] int GetASCII(char c) {
     return static_cast<int>(c);
@@ -39,24 +42,17 @@ const int kMod = 128;
 [[nodiscard]] char* ProccessText(const char* text, const char* notebook, bool encode) {
     Vector::VecInt keys = GetNotebookkeys(notebook);
 
-    std::cout << notebook << std::endl;
-    Vector::PrintVector(keys);
-
     const size_t textLength = std::strlen(text);
     char* result = new char[textLength + 1];
 
-    for (size_t i = 0; i < textLength; i++) {
-        if (IsSymbol(text[i])) {
-            int key = Vector::GetElement(keys, i % keys.size);
-            int asciiCode = GetASCII(text[i]);
-            int asciiValue = (encode ? (asciiCode + key) % kMod : (key - asciiCode + kMod) % kMod);
-            std::cout << asciiCode << ':' << key << ':' << asciiValue << ' ';
-            result[i] = GetCharByASCII(asciiValue);
-        } else {
-            result[i] = text[i];
-        }
+    for (size_t i = 0; i <= textLength; i++) {
+        int key = Vector::GetElement(keys, i % keys.size);
+        int asciiCode = GetASCII(text[i]);
+        int asciiValue = (encode ? (asciiCode + key) % kMod + 1 : (asciiCode - key - 1 + kMod) % kMod);
+        result[i] = GetCharByASCII(asciiValue);
     }
-    std::cout << std::endl;
+
+    Vector::DeleteVector(keys);
 
     result[textLength - 1] = '\0';
 
@@ -76,9 +72,44 @@ char* Decode(const char* text, const char* notebook) {
 }
 
 void GenerateStatistics(const char* originalText, const char* encodedText, const char* notebook) {
-    std::cout << "Original:" << originalText << std::endl << std::endl;
-    std::cout << "Encode:" << encodedText << std::endl << std::endl;
-    std::cout << "Notebook:" << notebook << std::endl << std::endl;
+    int asciiFrequency[kMod] = {0};
+    int uniqueEncodings[kMod] = {0};
+    size_t originalTextLength = std::strlen(originalText);
+    size_t encodedTextLength = std::strlen(encodedText);
+
+    for (size_t i = 0; i <= originalTextLength; i++) {
+        int symbol = GetASCII(originalText[i]) % kMod;
+        asciiFrequency[symbol]++;
+    }
+
+    char* decodeText = Decode(encodedText, notebook);
+ 
+    for (size_t i = 0; i <= encodedTextLength; i++) {
+        int encodeSymbol = GetASCII(encodedText[i]) % kMod;
+        int decodeSymbol = GetASCII(decodeText[i]) % kMod;
+
+        for (size_t j = 0; j <= encodedTextLength; j++) {
+            if (encodeSymbol == encodedText[j] && GetASCII(encodedText[j] != decodeSymbol)) {
+                uniqueEncodings[encodeSymbol]++;
+            }
+        }
+    }
+
+    std::cout << "Origin text length: " << originalTextLength << std::endl;
+
+    Vector::VecInt keys = GetNotebookkeys(notebook);
+    std::cout << "Notebook words: " << keys.size << std::endl;
+    Vector::DeleteVector(keys);
+
+    std::cout << std::setw(kColWeight) << "Symbol " << std::setw(kColWeight) << "ASCII Code " << std::setw(kColWeight) << "Frequency "
+              << std::setw(kColWeight) << "Unique Encodings " << std::endl;
+
+    for (int i = 0; i < kMod; i++) {
+        if (asciiFrequency[i] > 0 && i >= 32) {
+            std::cout << std::setw(kColWeight) << GetCharByASCII(i) << std::setw(kColWeight) << i << std::setw(kColWeight)
+                      << asciiFrequency[i] << std::setw(kColWeight) << uniqueEncodings[i] + 1 << std::endl;
+        }
+    }
 }
 
 }  // namespace CaesarCipher

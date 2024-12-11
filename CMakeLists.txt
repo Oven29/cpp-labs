@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 3.20)
 
 project(CaesarCipher)
 
-set(CMAKE_CXX_CLANG_TIDY "clang-tidy")
+# set(CMAKE_CXX_CLANG_TIDY "clang-tidy")
 
 # Add source files
 file(GLOB_RECURSE SOURCES ${CMAKE_CURRENT_SOURCE_DIR}/src/*.cpp)
