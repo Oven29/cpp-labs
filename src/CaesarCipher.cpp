@@ -54,7 +54,7 @@ const int kColWeight = 15;
 
     Vector::DeleteVector(keys);
 
-    result[textLength - 1] = '\0';
+    result[textLength] = '\0';
 
     return result;
 }
