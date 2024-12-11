@@ -59,6 +59,8 @@ void RunInteractive() {
     long encoded = RSA::Encode(message, e, n);
     long decoded = RSA::Decode(encoded, d, n);
 
+    std::cout << "Открытый ключ (e, n): " << e << " " << n << std::endl;
+    std::cout << "Приватный ключ (d, n): " << d << " " << n << std::endl;
     std::cout << "Зашифрованное сообщение: " << encoded << std::endl;
     std::cout << "Расшифрованное сообщение: " << decoded << std::endl;
 }
