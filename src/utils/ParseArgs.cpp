@@ -4,6 +4,7 @@
 #include <stdexcept>
 
 namespace {
+
 const int kRequiredArgumentsCount = 5;
 
 constexpr const char* kSourceFileArgument = "--source-file=";
@@ -28,9 +29,11 @@ void ThrowException() {
 bool EqualsString(const char* str1, const char* str2) {
     return std::strncmp(str1, str2, std::strlen(str2)) == 0;
 }
+
 }  // namespace
 
 namespace parseArgs {
+
 Args parse(int argc, char** argv) {
     Args args{};
 
@@ -70,4 +73,5 @@ Args parse(int argc, char** argv) {
 
     return args;
 }
+
 }  // namespace parseArgs

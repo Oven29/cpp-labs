@@ -1,6 +1,7 @@
 #pragma once
 
 namespace parseArgs {
+
 struct Args {
     char* sourceFile = nullptr;
     char* keyFile = nullptr;
@@ -9,4 +10,5 @@ struct Args {
 };
 
 [[nodiscard]] Args parse(int argc, char** argv);
+
 }  // namespace parseArgs

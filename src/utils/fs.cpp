@@ -5,6 +5,7 @@
 #include <stdexcept>
 
 namespace {
+
 char* ConcatenationStrings(const char* str1, const char* str2) {
     size_t len1 = std::strlen(str1);
     size_t len2 = std::strlen(str2);
@@ -24,9 +25,11 @@ char* ConcatenationStrings(const char* str1, const char* str2) {
 void ThrowExceptionWithFilename(const char* message, const char* filename) {
     throw std::runtime_error(ConcatenationStrings(message, filename));
 }
+
 }  // namespace
 
 namespace fs {
+
 void WriteFile(const char* filename, const char* content) {
     if (!filename || !content) {
         throw std::invalid_argument("Filename or content cannot be null.");
@@ -83,4 +86,5 @@ char* ReadFile(const char* filename) {
     content[size] = '\0';
     return content;
 }
+
 }  // namespace fs

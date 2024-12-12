@@ -58,4 +58,4 @@ void Push(VecInt& vector, int element) {
     vector.vector[vector.size++] = element;
 }
 
-}  // namespace vec
+}  // namespace Vector
