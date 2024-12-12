@@ -3,6 +3,7 @@
 #include <cstring>
 #include <iomanip>
 #include <iostream>
+#include <stdexcept>
 #include "collections/Vector.h"
 
 namespace {
@@ -71,6 +72,10 @@ Vector::VecInt CreateNotebookKeys(const char* notebook) {
                 Vector::ClearVector(word);
             }
         }
+    }
+
+    if (keys.size == 0) {
+        throw std::runtime_error("Empty keys file");
     }
 
     return keys;
