@@ -51,11 +51,11 @@ void PrintTable(App::IntegralPrint integralPrint[]) {
     double integral = 0.;
     double previousIntegral = 0.;
 
-    while (n < kMaxIter) {
+    for (int i = 0; i < kMaxIter; ++i) {
         integral = 0.;
 
-        for (int i = 0; i < n; ++i) {
-            integral += f(a + i * h) * h;
+        for (int j = 0; j < n; ++j) {
+            integral += f(a + j * h) * h;
         }
 
         if (n > 1 && std::fabs(integral - previousIntegral) < epsilon) {
@@ -109,29 +109,30 @@ void Run() {
     double epsilon = 0.01;
     int n = 1;
 
+    App::IntegralPrint integral_print[4];
+
+    integral_print[0].FnName = "y = x        ";
+    integral_print[0].integralSum = (std::pow(b, 2) - std::pow(a, 2)) / 2.0;
+    integral_print[0].n = n;
+
+    integral_print[1].FnName = "y = sin(22x) ";
+    integral_print[1].integralSum = (std::cos(a * 22.0) - std::cos(b * 22.0)) / 22.0;
+    integral_print[1].n = n;
+
+    integral_print[2].FnName = "y = x^4      ";
+    integral_print[2].integralSum = (std::pow(b, 5) - std::pow(a, 5)) / 5.0;
+    integral_print[2].n = n;
+
+    integral_print[3].FnName = "y = arctan(x)";
+    integral_print[3].integralSum =
+        b * std::atan(b) - a * std::atan(a) - (std::log(std::pow(b, 3) + 1) - std::log(std::pow(a, 2) + 1)) / 2.0;
+    integral_print[3].n = n;
+
     for (int i = 0; i <= 4; ++i) {
-        App::IntegralPrint integral_print[4];
-
-        integral_print[0].FnName = "y = x        ";
         integral_print[0].actualIntegralSum = IntRect(f1, a, b, epsilon, n);
-        integral_print[0].actualIntegralSum = (std::pow(b, 2) - std::pow(a, 2)) / 2.0;
-        integral_print[0].n = n;
-
-        integral_print[1].FnName = "y = sin(22x) ";
         integral_print[1].actualIntegralSum = IntRect(f2, a, b, epsilon, n);
-        integral_print[1].actualIntegralSum = (std::cos(a * 22.0) - std::cos(b * 22.0)) / 22.0;
-        integral_print[1].n = n;
-
-        integral_print[2].FnName = "y = x^4      ";
         integral_print[2].actualIntegralSum = IntRect(f3, a, b, epsilon, n);
-        integral_print[2].actualIntegralSum = (std::pow(b, 5) - std::pow(a, 5)) / 5.0;
-        integral_print[2].n = n;
-
-        integral_print[3].FnName = "y = arctan(x)";
         integral_print[3].actualIntegralSum = IntRect(f4, a, b, epsilon, n);
-        integral_print[3].actualIntegralSum =
-            b * std::atan(b) - a * std::atan(a) - (std::log(std::pow(b, 3) + 1) - std::log(std::pow(a, 2) + 1)) / 2.0;
-        integral_print[3].n = n;
 
         std::cout << "Метод прямоугольников. epsilon = " << std::resetiosflags(std::ios::fixed) << epsilon << std::endl;
         PrintTable(integral_print);
