@@ -1,4 +1,4 @@
-#include "utils/FS.h"
+#include "utils/fs.h"
 #include <cstring>
 #include <fstream>
 #include <limits>
@@ -26,7 +26,7 @@ void ThrowExceptionWithFilename(const char* message, const char* filename) {
 }
 }  // namespace
 
-namespace FS {
+namespace fs {
 void WriteFile(const char* filename, const char* content) {
     if (!filename || !content) {
         throw std::invalid_argument("Filename or content cannot be null.");
@@ -83,4 +83,4 @@ char* ReadFile(const char* filename) {
     content[size] = '\0';
     return content;
 }
-}  // namespace FS
+}  // namespace fs

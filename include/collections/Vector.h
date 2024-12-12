@@ -10,12 +10,11 @@ struct VecInt {
     int* vector{};
 };
 
-[[nodiscard]] VecInt CreateVector();
+VecInt CreateVector();
+void ClearVector(VecInt& vector);
 void DeleteVector(VecInt& vector);
 
-[[nodiscard]] int& GetElement(VecInt& vector, size_t index);
-[[nodiscard]] int GetElement(const VecInt& vector, size_t index);
-void PushBack(VecInt& vector, int element);
-void PrintVector(const VecInt& vector);
+int& GetElement(const VecInt& vector, size_t index);
+void Push(VecInt& vector, int element);
 
-}  // namespace Vector
+}  // namespace vec

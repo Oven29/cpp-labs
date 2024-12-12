@@ -9,7 +9,7 @@ namespace {
 
 const int kMod = 128;
 
-const int kColWeight = 15;
+const int kColWeight = 20;
 
 [[nodiscard]] int GetASCII(char c) {
     return static_cast<int>(c);
@@ -19,39 +19,30 @@ const int kColWeight = 15;
     return static_cast<char>(asciiCode);
 }
 
-[[nodiscard]] bool IsSymbol(char c) {
-    return std::ispunct(c) == 0 && c != ' ' && c != '\n';
+[[nodiscard]] bool IsSymbol(char ch) {
+    return !(std::ispunct(ch) || std::isspace(ch));
 }
 
-// [[nodiscard]] Vector::VecInt GetNotebookkeys(const char* notebook) {
-    
-//     return keys;
-// }
-
-[[nodiscard]] char* ProccessText(const char* text, const char* notebook, bool encode) {
-    Vector::VecInt keys = Vector::CreateVector();
-    Vector::PushBack(keys, 0);
-
-    for (size_t i = 0; i < std::strlen(notebook); i++) {
-        if (IsSymbol(notebook[i])) {
-            int lastItem = Vector::GetElement(keys, keys.size - 1);
-            keys.vector[i] = lastItem + GetASCII(notebook[i]);
-        } else {
-            Vector::PushBack(keys, 0);
-        }
-    }
-
+char* ProccessText(const char* text, const Vector::VecInt& keys, bool encode) {
     const size_t textLength = std::strlen(text);
     char* result = new char[textLength + 1];
 
     for (size_t i = 0; i <= textLength; i++) {
         int key = Vector::GetElement(keys, i % keys.size);
         int asciiCode = GetASCII(text[i]);
-        int asciiValue = (encode ? (asciiCode + key) % kMod + 1 : (asciiCode - key - 1 + kMod) % kMod);
+
+        int asciiValue = 0;
+        if (encode) {
+            asciiValue = (asciiCode + key) % kMod + 1;
+        } else {
+            asciiValue = (asciiCode - 1 - key) % kMod;
+            if (asciiValue < 0) {
+                asciiValue += kMod;
+            }
+        }
+
         result[i] = GetCharByASCII(asciiValue);
     }
-
-    Vector::DeleteVector(keys);
 
     result[textLength] = '\0';
 
@@ -62,17 +53,44 @@ const int kColWeight = 15;
 
 namespace CaesarCipher {
 
-char* Encode(const char* text, const char* notebook) {
-    return ProccessText(text, notebook, true);
+Vector::VecInt CreateNotebookKeys(const char* notebook) {
+    Vector::VecInt keys = Vector::CreateVector();
+
+    Vector::VecInt word = Vector::CreateVector();
+    for (size_t i = 0; i < std::strlen(notebook); i++) {
+        if (IsSymbol(notebook[i])) {
+            Vector::Push(word, GetASCII(notebook[i]));
+        } else {
+            if (word.size > 0) {
+                int sum = 0;
+                for (size_t j = 0; j < word.size; j++) {
+                    sum += word.vector[j];
+                }
+
+                Vector::Push(keys, sum % kMod);
+                Vector::ClearVector(word);
+            }
+        }
+    }
+
+    return keys;
 }
 
-char* Decode(const char* text, const char* notebook) {
-    return ProccessText(text, notebook, false);
+char* Encode(const char* text, const Vector::VecInt& keys) {
+    return ProccessText(text, keys, true);
 }
 
-void GenerateStatistics(const char* originalText, const char* encodedText, const char* notebook) {
-    int asciiFrequency[kMod] = {0};
-    int uniqueEncodings[kMod] = {0};
+char* Decode(const char* text, const Vector::VecInt& keys) {
+    return ProccessText(text, keys, false);
+}
+
+void GenerateStatistics(const char* originalText, const char* encodedText, const Vector::VecInt& keys) {
+    int asciiFrequency[kMod] = {};
+    Vector::VecInt uniqueEncodings[kMod] = {};
+    for (size_t i = 0; i < kMod; i++) {
+        uniqueEncodings[i] = Vector::CreateVector();
+    }
+
     size_t originalTextLength = std::strlen(originalText);
     size_t encodedTextLength = std::strlen(encodedText);
 
@@ -81,32 +99,33 @@ void GenerateStatistics(const char* originalText, const char* encodedText, const
         asciiFrequency[symbol]++;
     }
 
-    char* decodeText = Decode(encodedText, notebook);
- 
     for (size_t i = 0; i <= encodedTextLength; i++) {
-        int encodeSymbol = GetASCII(encodedText[i]) % kMod;
-        int decodeSymbol = GetASCII(decodeText[i]) % kMod;
+        int ch = GetASCII(originalText[i]);
+        int encodedChar = GetASCII(encodedText[i]);
 
-        for (size_t j = 0; j <= encodedTextLength; j++) {
-            if (encodeSymbol == encodedText[j] && GetASCII(encodedText[j] != decodeSymbol)) {
-                uniqueEncodings[encodeSymbol]++;
+        bool included = false;
+        for (size_t j = 0; j < uniqueEncodings[ch].size; j++) {
+            if (uniqueEncodings[ch].vector[j] == encodedChar) {
+                included = true;
+                break;
             }
+        }
+
+        if (!included) {
+            Vector::Push(uniqueEncodings[ch], encodedChar);
         }
     }
 
     std::cout << "Origin text length: " << originalTextLength << std::endl;
-
-    // Vector::VecInt keys = GetNotebookkeys(notebook);
-    // std::cout << "Notebook words: " << keys.size << std::endl;
-    // Vector::DeleteVector(keys);
+    std::cout << "Notebook words: " << keys.size << std::endl;
 
     std::cout << std::setw(kColWeight) << "Symbol " << std::setw(kColWeight) << "ASCII Code " << std::setw(kColWeight) << "Frequency "
               << std::setw(kColWeight) << "Unique Encodings " << std::endl;
 
     for (int i = 0; i < kMod; i++) {
         if (asciiFrequency[i] > 0 && i >= 32) {
-            std::cout << std::setw(kColWeight) << GetCharByASCII(i) << std::setw(kColWeight) << i << std::setw(kColWeight)
-                      << asciiFrequency[i] << std::setw(kColWeight) << uniqueEncodings[i] + 1 << std::endl;
+            std::cout << std::setw(kColWeight) << GetCharByASCII(i) << std::setw(kColWeight) << i << std::setw(kColWeight) << asciiFrequency[i]
+                      << std::setw(kColWeight) << uniqueEncodings[i].size << std::endl;
         }
     }
 }

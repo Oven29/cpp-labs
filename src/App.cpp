@@ -1,6 +1,7 @@
 #include <iostream>
 #include "CaesarCipher.h"
-#include "utils/FS.h"
+#include "collections/Vector.h"
+#include "utils/fs.h"
 #include "utils/parseArgs.h"
 
 namespace App {
@@ -8,16 +9,18 @@ namespace App {
 void Run(int argc, char** argv) {
     parseArgs::Args args = parseArgs::parse(argc, argv);
 
-    const char* source = FS::ReadFile(args.sourceFile);
-    const char* notebook = FS::ReadFile(args.keyFile);
+    const char* source = fs::ReadFile(args.sourceFile);
+    const char* keys = fs::ReadFile(args.keyFile);
 
-    const char* encode = CaesarCipher::Encode(source, notebook);
-    const char* decode = CaesarCipher::Decode(encode, notebook);
+    Vector::VecInt processedKeys = CaesarCipher::CreateNotebookKeys(keys);
 
-    FS::WriteFile(args.encodeFile, encode);
-    FS::WriteFile(args.decodeFile, decode);
+    const char* encode = CaesarCipher::Encode(source, processedKeys);
+    const char* decode = CaesarCipher::Decode(encode, processedKeys);
 
-    CaesarCipher::GenerateStatistics(source, encode, decode);
+    fs::WriteFile(args.encodeFile, encode);
+    fs::WriteFile(args.decodeFile, decode);
+
+    CaesarCipher::GenerateStatistics(source, encode, processedKeys);
 }
 
 }  // namespace App
