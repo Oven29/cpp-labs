@@ -2,8 +2,6 @@ cmake_minimum_required(VERSION 3.20)
 
 project(Gauss)
 
-set(CMAKE_CXX_CLANG_TIDY "clang-tidy")
-
 set(SOURCES
     ${CMAKE_CURRENT_SOURCE_DIR}/main.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/src/app.cpp
