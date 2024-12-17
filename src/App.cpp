@@ -4,8 +4,8 @@
 
 #include "cmath"
 #include "collections/matrix.h"
-#include "mprinter.h"
 #include "utils/Random.h"
+#include "utils/mprinter.h"
 
 namespace {
 
@@ -51,11 +51,11 @@ void RunDynamicMatrix() {
 
         // Above main diagonal
         if (j > i) {
-            return std::pow(x, i) / std::pow(math::Factorial(j), i);
+            return std::pow(x, i) / std::pow(Factorial(j), i);
         }
 
         // Below main diagonal
-        return std::pow(-x, i) / std::pow(math::Factorial(j), i);
+        return std::pow(-x, i) / std::pow(Factorial(j), i);
     });
 
     int precision = Random::RandInt(kMinPrecision, kMaxPrecision);
