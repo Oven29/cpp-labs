@@ -1,5 +1,5 @@
-lab 6
+lab 8
 
-https://iu5edu.ru/wiki/cpp1/docs/labs/lab6/
+https://iu5edu.ru/wiki/cpp1/docs/labs/lab9/
 
-****Численное интегрирование функции****
+**Ввод, сортировка и двоичный поиск в массиве структур**
