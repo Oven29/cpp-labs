@@ -1,24 +1,20 @@
 cmake_minimum_required(VERSION 3.20)
 
-project(Dict)
+project(Gauss)
 
 set(CMAKE_CXX_CLANG_TIDY "clang-tidy")
-
-set_target_properties(${CMAKE_PROJECT_NAME} PROPERTIES
-    RUNTIME_OUTPUT_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/bin
-)
 
 set(SOURCES
     ${CMAKE_CURRENT_SOURCE_DIR}/main.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/src/app.cpp
-    ${CMAKE_CURRENT_SOURCE_DIR}/src/args_parser.cpp
-    ${CMAKE_CURRENT_SOURCE_DIR}/src/collections/mdict.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/mprinter.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/collections/matrix.cpp
 )
 
 set(HEADERS
     ${CMAKE_CURRENT_SOURCE_DIR}/src/app.h
-    ${CMAKE_CURRENT_SOURCE_DIR}/src/args_parser.h
-    ${CMAKE_CURRENT_SOURCE_DIR}/src/collections/mdict.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/mprinter.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/collections/matrix.cpp
 )
 
 add_executable(${CMAKE_PROJECT_NAME} ${SOURCES} ${HEADERS})
