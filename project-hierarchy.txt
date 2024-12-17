@@ -1,32 +1,20 @@
 cpp-labs
 ├─ .clang-format
 ├─ .clang-tidy
-├─ .git
-│  └─...
-├─ .github
-│  └─...
 ├─ .gitignore
-├─ .vscode
-│  └─...
 ├─ CMakeLists.txt
 ├─ README.md
 ├─ bin
 │  └─...
 ├─ build
 │  └─...
-├─ include
-│  ├─ App.h
-│  ├─ collections
-│  │  └─ matrix.h
-│  └─ utils
-│     ├─ Random.h
-│     └─ mprinter.h
+├─ main.cpp
 ├─ project-hierarchy.txt
 └─ src
-   ├─ App.cpp
-   ├─ collections
-   │  └─ matrix.cpp
-   ├─ main.cpp
-   └─ utils
-      ├─ Random.cpp
-      └─ mprinter.cpp
+   ├─ app.cpp
+   ├─ app.h
+   ├─ args_parser.cpp
+   ├─ args_parser.h
+   └─ collections
+      ├─ mdict.cpp
+      └─ mdict.h
