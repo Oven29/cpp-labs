@@ -1,5 +1,5 @@
-lab 6
+lab 9
 
-https://iu5edu.ru/wiki/cpp1/docs/labs/lab6/
+https://iu5edu.ru/wiki/cpp1/docs/labs/lab10/
 
-****Численное интегрирование функции****
+**Вычисление обратной матрицы методом Гаусса-Жордана**
