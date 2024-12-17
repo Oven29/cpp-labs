@@ -1,99 +1,83 @@
 #include "App.h"
 
-#include <cmath>
-#include <iomanip>
 #include <iostream>
 
+#include "cmath"
+#include "collections/matrix.h"
+#include "mprinter.h"
 #include "utils/Random.h"
 
 namespace {
 
-const int kWidthColumn = 18;
-const int kColumnsQuantity = 4;
-const int kMaxIter = 100000;
+const int kMinMatrixSize = 8;
+const int kMaxMatrixSize = 15;
+const int kMinPrecision = 3;
+const int kMaxPrecision = 8;
+const int x = 1;
 
-const double kMinA = 0.;
-const double kMaxA = 1.;
-const double kMinB = 2.;
-const double kMaxB = 3.;
+const int kStaticMatrixSize = 10;
+const double kStaticMatrixB[kStaticMatrixSize][kStaticMatrixSize] = {
+    {0,  1,  2,  3,  4,  5,  6,  7,  8,  9 },
+    {10, 11, 12, 13, 14, 15, 16, 17, 18, 19},
+    {20, 21, 22, 23, 24, 25, 26, 27, 28, 29},
+    {30, 31, 32, 33, 34, 35, 36, 37, 38, 39},
+    {40, 41, 42, 43, 44, 45, 46, 47, 48, 49},
+    {50, 51, 52, 53, 54, 55, 56, 57, 58, 59},
+    {60, 61, 62, 63, 64, 65, 66, 67, 68, 69},
+    {70, 71, 72, 73, 74, 75, 76, 77, 78, 79},
+    {80, 81, 82, 83, 84, 85, 86, 87, 88, 89},
+    {90, 91, 92, 93, 94, 95, 96, 97, 98, 99},
+};
 
-[[nodiscard]] double f1(double x) {
-    return x;
-}
-
-[[nodiscard]] double f2(double x) {
-    return std::sin(22 * x);
-}
-
-[[nodiscard]] double f3(double x) {
-    return std::pow(x, 4);
-}
-
-[[nodiscard]] double f4(double x) {
-    return std::atan(x);
-}
-
-void PrintTable(App::IntegralPrint integralPrint[]) {
-    std::cout << std::setw(kWidthColumn) << "Function name" << std::setw(kWidthColumn) << "Calculated Sum" << std::setw(kWidthColumn) << "Actual Sum"
-              << std::setw(kWidthColumn) << "N" << std::endl;
-
-    for (int i = 0; i < kColumnsQuantity; i++) {
-        std::cout << std::setw(kWidthColumn) << integralPrint[i].FnName << std::setw(kWidthColumn) << integralPrint[i].integralSum
-                  << std::setw(kWidthColumn) << integralPrint[i].actualIntegralSum << std::setw(kWidthColumn) << integralPrint[i].n << std::endl;
+int Factorial(int n) {
+    if (n == 0) {
+        return 1;
     }
 
-    std::cout << std::endl;
+    return n * Factorial(n - 1);
 }
 
-[[nodiscard]] double IntRect(App::TPF f, double a, double b, double epsilon, int& n) {
-    n = 1;
-    double h = b - a;
-    double integral = 0.;
-    double previousIntegral = 0.;
+void RunDynamicMatrix() {
+    int rows = Random::RandInt(kMinMatrixSize, kMaxMatrixSize);
+    int cols = Random::RandInt(kMinMatrixSize, kMaxMatrixSize);
 
-    for (int i = 0; i < kMaxIter; ++i) {
-        integral = 0.;
+    matrix::Matrix matrixA = matrix::NewMatrix(rows, cols);
 
-        for (int j = 0; j < n; ++j) {
-            integral += f(a + j * h) * h;
+    matrix::FillMatrix(matrixA, [](int i, int j) -> double {
+        // Main diagonal
+        if (i == j) {
+            return 1;
         }
 
-        if (n > 1 && std::fabs(integral - previousIntegral) < epsilon) {
-            break;
+        // Above main diagonal
+        if (j > i) {
+            return std::pow(x, i) / std::pow(math::Factorial(j), i);
         }
 
-        previousIntegral = integral;
-        n *= 2;
-        h /= 2;
-    }
+        // Below main diagonal
+        return std::pow(-x, i) / std::pow(math::Factorial(j), i);
+    });
 
-    return integral;
+    int precision = Random::RandInt(kMinPrecision, kMaxPrecision);
+
+    mprinter::PrintMatrix(matrixA.data, rows, cols, precision);
 }
 
-[[nodiscard]] double IntTrap(App::TPF f, double a, double b, double epsilon, int& n) {
-    n = 1;
-    double h = b - a;
-    double integral = 0;
-    double previousIntegral = 0;
+void RunStaticMatrix() {
+    int precision = Random::RandInt(kMinPrecision, kMaxPrecision);
 
-    for (int i = 0; i < kMaxIter; ++i) {
-        integral = 0.;
-
-        for (int i = 0; i < n; ++i) {
-            double x = a + i * h;
-            integral += (f(x) + f(x + h)) * h / 2;
-        }
-
-        if (n > 1 && std::fabs(integral - previousIntegral) < epsilon) {
-            break;
-        }
-
-        previousIntegral = integral;
-        n *= 2;
-        h /= 2;
+    double** rows_p = new double*[kStaticMatrixSize];
+    for (int i = 0; i < kStaticMatrixSize; i++) {
+        rows_p[i] = const_cast<double*>(kStaticMatrixB[i]);
     }
 
-    return integral;
+    mprinter::PrintMatrix(rows_p, kStaticMatrixSize, kStaticMatrixSize, precision);
+
+    std::cout << rows_p << "  " << rows_p[0] << "  " << rows_p[2] << std::endl;
+    std::cout << rows_p[0][0] << "  " << **rows_p << "  " << *rows_p[0] << std::endl;
+    std::cout << *(*(rows_p + 1)) << "  " << *rows_p[1] << std::endl;
+    std::cout << *(rows_p[0] + 1) << "  " << *(*rows_p + 1) << std::endl;
+    std::cout << rows_p[0][20] << "  " << *(rows_p[0] + 20) << "  " << *rows_p[2] << std::endl;
 }
 
 }  // namespace
@@ -101,51 +85,23 @@ void PrintTable(App::IntegralPrint integralPrint[]) {
 namespace App {
 
 void Run() {
-    double a = Random::RandDouble(kMinA, kMaxA);
-    double b = Random::RandDouble(kMinB, kMaxB);
+    int task = 0;
+    std::cout << "Введите номер задания:\n"
+              << "0 - Динамические матрица А\n"
+              << "1 - Статические матрица В\n";
+    std::cout << "Ввод: ";
+    std::cin >> task;
 
-    std::cout << "a: " << a << " b: " << b << std::endl;
-
-    double epsilon = 0.01;
-    int n = 1;
-
-    App::IntegralPrint integral_print[4];
-
-    integral_print[0].FnName = "y = x        ";
-    integral_print[0].integralSum = (std::pow(b, 2) - std::pow(a, 2)) / 2.0;
-    integral_print[0].n = n;
-
-    integral_print[1].FnName = "y = sin(22x) ";
-    integral_print[1].integralSum = (std::cos(a * 22.0) - std::cos(b * 22.0)) / 22.0;
-    integral_print[1].n = n;
-
-    integral_print[2].FnName = "y = x^4      ";
-    integral_print[2].integralSum = (std::pow(b, 5) - std::pow(a, 5)) / 5.0;
-    integral_print[2].n = n;
-
-    integral_print[3].FnName = "y = arctan(x)";
-    integral_print[3].integralSum =
-        b * std::atan(b) - a * std::atan(a) - (std::log(std::pow(b, 3) + 1) - std::log(std::pow(a, 2) + 1)) / 2.0;
-    integral_print[3].n = n;
-
-    for (int i = 0; i <= 4; ++i) {
-        integral_print[0].actualIntegralSum = IntRect(f1, a, b, epsilon, n);
-        integral_print[1].actualIntegralSum = IntRect(f2, a, b, epsilon, n);
-        integral_print[2].actualIntegralSum = IntRect(f3, a, b, epsilon, n);
-        integral_print[3].actualIntegralSum = IntRect(f4, a, b, epsilon, n);
-
-        std::cout << "Метод прямоугольников. epsilon = " << std::resetiosflags(std::ios::fixed) << epsilon << std::endl;
-        PrintTable(integral_print);
-
-        integral_print[0].actualIntegralSum = IntTrap(f1, a, b, epsilon, n);
-        integral_print[1].actualIntegralSum = IntTrap(f2, a, b, epsilon, n);
-        integral_print[2].actualIntegralSum = IntTrap(f3, a, b, epsilon, n);
-        integral_print[3].actualIntegralSum = IntTrap(f4, a, b, epsilon, n);
-
-        std::cout << "Метод трапеций. epsilon = " << std::resetiosflags(std::ios::fixed) << epsilon << std::endl;
-        PrintTable(integral_print);
-
-        epsilon = epsilon / 10;
+    switch (static_cast<Task>(task)) {
+        case Task::DynamicMatrix:
+            RunDynamicMatrix();
+            break;
+        case Task::StaticMatrix:
+            RunStaticMatrix();
+            break;
+        default:
+            std::cout << "Неверный номер задания!\n";
+            break;
     }
 }
 

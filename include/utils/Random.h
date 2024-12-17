@@ -1,7 +1,8 @@
 #pragma once
+#include <cstddef>
 
 namespace Random {
 
-double RandDouble(double begin, double end);
+[[nodiscard]] int RandInt(int begin, int end);
 
 }  // namespace Random

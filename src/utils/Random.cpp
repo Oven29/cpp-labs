@@ -4,10 +4,10 @@
 
 namespace Random {
 
-double RandDouble(double begin, double end) {
+int RandInt(int begin, int end) {
     std::random_device r{};
     std::default_random_engine randomEngine(r());
-    std::uniform_real_distribution<double> distribution(begin, end);
+    std::uniform_int_distribution<int> distribution(begin, end);
 
     return distribution(randomEngine);
 }

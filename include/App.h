@@ -2,15 +2,11 @@
 
 namespace App {
 
-using TPF = double (*)(double);
-
-struct IntegralPrint {
-    const char* FnName = {};
-    double integralSum = 0;
-    double actualIntegralSum = 0;
-    int n = 0;
+enum class Task {
+    DynamicMatrix = 0,
+    StaticMatrix = 1
 };
 
 void Run();
 
-}  // namespace App
+}  // namespace app
