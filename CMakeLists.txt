@@ -15,6 +15,10 @@ set(HEADERS
     ${CMAKE_CURRENT_SOURCE_DIR}/src/collections/matrix.cpp
 )
 
+set_target_properties(${CMAKE_PROJECT_NAME} PROPERTIES
+    RUNTIME_OUTPUT_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/bin
+)
+
 add_executable(${CMAKE_PROJECT_NAME} ${SOURCES} ${HEADERS})
 set_property(TARGET ${CMAKE_PROJECT_NAME} PROPERTY CXX_STANDARD 20)
 target_compile_options(${CMAKE_PROJECT_NAME} PRIVATE -Wall -Wextra -Werror -Wpedantic)
