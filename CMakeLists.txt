@@ -2,12 +2,6 @@ cmake_minimum_required(VERSION 3.20)
 
 project(Dict)
 
-set(CMAKE_CXX_CLANG_TIDY "clang-tidy")
-
-set_target_properties(${CMAKE_PROJECT_NAME} PROPERTIES
-    RUNTIME_OUTPUT_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/bin
-)
-
 set(SOURCES
     ${CMAKE_CURRENT_SOURCE_DIR}/main.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/src/app.cpp
